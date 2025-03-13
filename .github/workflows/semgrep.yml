@@ -40,6 +40,9 @@ jobs:
       # --config r/all --config custom/rules
         run: semgrep scan -q --sarif --config auto . > semgrep-results.sarif
 
+      - name: List files in the directory
+        run: ls -alh
+
       # upload the results for the CodeQL GitHub app to annotate the code
       - name: Save SARIF results as artifact
         uses: actions/upload-artifact@v3
