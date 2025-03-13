@@ -1,0 +1,7 @@
+Flask==0.12  # Veraltete Version, Sicherheitslücken in Debug-Modus
+Django==1.8  # Veraltet und nicht mehr unterstützt
+requests==2.6.0  # Enthält mehrere bekannte Schwachstellen (CVE-2018-18074)
+urllib3==1.21.1  # Unsichere SSL-Verbindungen, CVE-2019-11324
+cryptography==1.7.2  # Enthält Schwachstellen in älteren OpenSSL-Versionen
+pyyaml==3.10  # Verwundbar für unsichere Deserialisierung (CVE-2017-18342)
+jose==1.0.0  # Unsicherer JWT-Handling (keine Algorithmus-Überprüfung)
