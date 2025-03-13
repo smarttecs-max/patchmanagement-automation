@@ -9,7 +9,6 @@ on:
   # Scan mainline branches and report all findings:
   push:
     branches: ["master", "main"]
-  workflow_dispatch: # Ermöglicht manuelles Ausführen
 
 jobs:
   semgrep_scan:
