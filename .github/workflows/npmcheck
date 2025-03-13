@@ -1,0 +1,33 @@
+name: Check outdated dependencies
+
+on:
+  # Trigger manually or on push
+  workflow_dispatch: {}  # Manuell triggern
+  push:
+    branches:
+      - "main"  # Bei jedem Push auf den Main-Branch
+
+jobs:
+  outdated_check:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Run `npm outdated` to find outdated dependencies
+      - name: Check for outdated dependencies
+        id: outdated
+        run: |
+          npm outdated --json > outdated.json
+          echo "Outdated dependencies saved to outdated.json"
+
+      # Upload SARIF result to the GitHub Security Dashboard
+      - name: Upload SARIF result to the GitHub Security Dashboard
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: outdated.sarif
