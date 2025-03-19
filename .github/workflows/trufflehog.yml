@@ -1,5 +1,5 @@
 # GitHub Actions workflow for running Semgrep scans.
-name: Trufflepig
+name: Trufflehog
 
 on:
   # Trigger on pull requests to scan changed files.
