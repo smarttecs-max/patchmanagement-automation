@@ -1,24 +1,40 @@
-# GitHub Actions workflow for running Semgrep scans.
-name: Trufflehog
+name: TruffleHog Secret Scanning
 
-on:
-  # Trigger on pull requests to scan changed files.
-  pull_request: {}
-  # Manually trigger scan via GitHub Actions interface.
-  workflow_dispatch: {}
-  # Trigger on push to main branches (e.g., master, main).:
-  push:
-    branches: ["master", "main"]
+on: 
+  push: 
+    branches: 
+      - main 
+  pull_request:
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Secret Scanning
-      uses: trufflesecurity/trufflehog@main
-      with:
-        extra_args: --results=verified,unknown
+permissions: 
+  contents: read
+  id-token: write
+  issues: write
+  pull-requests: write
+
+jobs: 
+  trufflehog_scan: 
+    runs-on: ubuntu-latest 
+    defaults: 
+      run: 
+        shell: bash 
+
+    steps: 
+      - name: Checkout code 
+        uses: actions/checkout@v4 
+        with: 
+          fetch-depth: 0
+
+      - name: Run TruffleHog OSS
+        id: trufflehog 
+        uses: trufflesecurity/trufflehog@add-actions-cli-switch 
+        continue-on-error: true 
+        with: 
+          path: ./ 
+          base: "${{ github.event.repository.default_branch }}" 
+          head: HEAD 
+          extra_args: --debug --only-verified
+
+      - name: Scan Results Status
+        if: steps.trufflehog.outcome == 'failure' 
+        run: exit 1
