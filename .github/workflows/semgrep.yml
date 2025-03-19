@@ -34,14 +34,11 @@ jobs:
         uses: actions/checkout@v3
     
       - name: Perform Semgrep Analysis
-        run: |
-          SEMGREP_SEND_METRICS:off
-          semgrep scan -q --sarif --config auto . > semgrep-results.sarif
       # Run the Semgrep scan with auto-config and output in SARIF format..
       # Modify the --config option to 'r/all' to scan using all rules,
       # or use multiple flags to specify particular rules, such as
       # --config r/all --config custom/rules
-          
+        run: semgrep scan -q --sarif --metrics=off --config auto . > semgrep-results.sarif
 
       # Upload the results for the CodeQL GitHub app to annotate the code
       - name: Save SARIF results as artifact
