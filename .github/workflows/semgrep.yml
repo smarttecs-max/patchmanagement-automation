@@ -38,7 +38,7 @@ jobs:
       # Modify the --config option to 'r/all' to scan using all rules,
       # or use multiple flags to specify particular rules, such as
       # --config r/all --config custom/rules
-        run: semgrep scan -q --sarif --config auto . > semgrep-results.sarif
+        run: semgrep scan -q --sarif --config python,p/ci . > semgrep-results.sarif
 
       # Upload the results for the CodeQL GitHub app to annotate the code
       - name: Save SARIF results as artifact
